@@ -8,5 +8,5 @@
  * @author Raven Mancao
  */
 public class Customer {
-    System.println("to do list");
+    System.println("to do list, hehehe");
 }
