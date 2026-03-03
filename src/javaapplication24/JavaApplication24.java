@@ -1,18 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package javaapplication24;
+import java.util.*;
 
-/**
- *
- * @author Raven Mancao
- */
-public class JavaApplication24 {
 
-    /**
-     * @param args the command line arguments
-     */
+class JavaApplication24 {
     public static void main(String[] args) {
         System.out.println("customer records  management");
     }
