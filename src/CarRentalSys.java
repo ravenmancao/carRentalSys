@@ -21,7 +21,6 @@ import java.util.ArrayList; //ArrayList dahil ArrayList lang naman ang ginamit k
 public class CarRentalSys {
     //list ng lahat ng customers
 private ArrayList<Customer>customers = new ArrayList<>();
-//list ng lahat ng sasakyan
 
 //method para sa magdadagdag ng bagong customer
 public void addCustomer(Customer customer){
