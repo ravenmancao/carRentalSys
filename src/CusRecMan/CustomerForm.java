@@ -7,101 +7,80 @@ import java.util.ArrayList;
 public class CustomerForm extends JFrame implements Searchable {
     private ArrayList<CustomerPage> customerList = new ArrayList<>();
 
-    private JTextField txtId, txtName, txtPhone, txtLicense, txtAddress, txtCar, txtRentalDate, txtReturnDate, txtSearch;
+    private JTextField txtId, txtName, txtPhone, txtLicense, txtAddress, txtSearch;
 
     public CustomerForm() {
-        setTitle("Customer Record Form");
+        setTitle("Customer Management");
         setSize(600, 400);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel lblId = new JLabel("Customer ID:");
-        lblId.setBounds(50, 20, 100, 25);
+        lblId.setBounds(50, 70, 100, 25);
         add(lblId);
         txtId = new JTextField();
-        txtId.setBounds(150, 20, 150, 25);
+        txtId.setBounds(150, 70, 150, 25);
         add(txtId);
 
         JLabel lblName = new JLabel("Full Name:");
-        lblName.setBounds(50, 50, 100, 25);
+        lblName.setBounds(50, 100, 100, 25);
         add(lblName);
         txtName = new JTextField();
-        txtName.setBounds(150, 50, 150, 25);
+        txtName.setBounds(150, 100, 150, 25);
         add(txtName);
 
         JLabel lblPhone = new JLabel("Phone Number:");
-        lblPhone.setBounds(50, 80, 100, 25);
+        lblPhone.setBounds(50, 130, 100, 25);
         add(lblPhone);
         txtPhone = new JTextField();
-        txtPhone.setBounds(150, 80, 150, 25);
+        txtPhone.setBounds(150, 130, 150, 25);
         add(txtPhone);
 
         JLabel lblLicense = new JLabel("Drivers License:");
-        lblLicense.setBounds(50, 110, 100, 25);
+        lblLicense.setBounds(50, 160, 100, 25);
         add(lblLicense);
         txtLicense = new JTextField();
-        txtLicense.setBounds(150, 110, 150, 25);
+        txtLicense.setBounds(150, 160, 150, 25);
         add(txtLicense);
 
         JLabel lblAddress = new JLabel("Address:");
-        lblAddress.setBounds(50, 140, 100, 25);
+        lblAddress.setBounds(50, 190, 100, 25);
         add(lblAddress);
         txtAddress = new JTextField();
-        txtAddress.setBounds(150, 140, 150, 25);
+        txtAddress.setBounds(150, 190, 150, 25);
         add(txtAddress);
-        
-        JLabel lblCar = new JLabel("Rented Car:");
-        lblCar.setBounds(50, 170, 100, 25);
-        add(lblCar);
-        txtCar = new JTextField();
-        txtCar.setBounds(150, 170, 150, 25);
-        add(txtCar);
-        
-        JLabel lblRental = new JLabel("Rental Date:");
-        lblRental.setBounds(50, 200, 100, 25);
-        add(lblRental);
-        txtRentalDate = new JTextField();
-        txtRentalDate.setBounds(150, 200, 150, 25);
-        add(txtRentalDate);
-        
-        JLabel lblReturn = new JLabel("Return Date:");
-        lblReturn.setBounds(50, 230, 100, 25);
-        add(lblReturn);
-        txtReturnDate = new JTextField();
-        txtReturnDate.setBounds(150, 230, 150, 25);
-        add(txtReturnDate);
 
         JButton btnAdd = new JButton("Add");
-        btnAdd.setBounds(320, 20, 100, 25);
+        btnAdd.setBounds(320, 70, 100, 25);
         add(btnAdd);
 
         JButton btnUpdate = new JButton("Update");
-        btnUpdate.setBounds(320, 50, 100, 25);
+        btnUpdate.setBounds(320, 100, 100, 25);
         add(btnUpdate);
 
         JButton btnDelete = new JButton("Delete");
-        btnDelete.setBounds(320, 80, 100, 25);
+        btnDelete.setBounds(320, 130, 100, 25);
         add(btnDelete);
 
         JButton btnClear = new JButton("Clear");
-        btnClear.setBounds(320, 110, 100, 25);
+        btnClear.setBounds(320, 160, 100, 25);
         add(btnClear);
 
         txtSearch = new JTextField();
-        txtSearch.setBounds(50, 265, 200, 25);
+        txtSearch.setBounds(50, 20, 200, 25);
         add(txtSearch);
 
         JButton btnSearch = new JButton("Search");
-        btnSearch.setBounds(270, 265, 100, 25);
+        btnSearch.setBounds(270, 20, 100, 25);
         add(btnSearch);
 
         JButton btnView = new JButton("View");
-        btnView.setBounds(380, 265, 100, 25);
+        btnView.setBounds(380, 20, 100, 25);
         add(btnView);
 
         JButton btnBack = new JButton("Back to Main Menu");
-        btnBack.setBounds(200, 300, 200, 30);
+        btnBack.setBounds(200, 280, 180, 40);
         add(btnBack);
 
         btnAdd.addActionListener(e -> {
@@ -115,7 +94,18 @@ public class CustomerForm extends JFrame implements Searchable {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "ID must be a number.");
                 return;
-            }
+            } 
+           StringBuilder missing = new StringBuilder();
+
+            if(txtName.getText().isEmpty()) missing.append("Fullname, ");
+            if(txtPhone.getText().isEmpty()) missing.append("Phone Number, ");
+            if(txtLicense.getText().isEmpty()) missing.append("Driver's License, ");
+            if(txtAddress.getText().isEmpty()) missing.append("Address, ");
+
+            if(missing.length() > 0){
+                JOptionPane.showMessageDialog(this,"Missing fields: " + missing.substring(0, missing.length() - 2));
+                   return;
+}        
             for(CustomerPage c : customerList){
                 if(c.getId() == id){
                     JOptionPane.showMessageDialog(this, "Customer with this ID already exists.");
@@ -127,10 +117,7 @@ public class CustomerForm extends JFrame implements Searchable {
                 txtName.getText(),
                 txtPhone.getText(),
                 txtLicense.getText(),
-                txtAddress.getText(),
-                txtCar.getText(),
-                txtRentalDate.getText(),
-                txtReturnDate.getText()               
+                txtAddress.getText()            
             );
             customerList.add(c);
             JOptionPane.showMessageDialog(this, "Customer added.");
@@ -164,9 +151,6 @@ public class CustomerForm extends JFrame implements Searchable {
             found.setPhone(txtPhone.getText());
             found.setLicense(txtLicense.getText());
             found.setAddress(txtAddress.getText());
-            found.setCar(txtCar.getText());
-            found.setRentalDate(txtRentalDate.getText());
-            found.setReturnDate(txtReturnDate.getText());
             JOptionPane.showMessageDialog(this, "Customer updated.");
             clearFields();
         });
@@ -203,7 +187,7 @@ public class CustomerForm extends JFrame implements Searchable {
         btnSearch.addActionListener(e -> {
             String keyword = txtSearch.getText().trim();
             if(keyword.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Enter ID or FullName to search.");
+                JOptionPane.showMessageDialog(this, "Enter ID or Fullname to search.");
                 return;
             }
             search(keyword);
@@ -212,7 +196,7 @@ public class CustomerForm extends JFrame implements Searchable {
         btnView.addActionListener(e -> {
             String keyword = txtSearch.getText().trim();
             if(keyword.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Enter ID or Full Name to search before viewing.");
+                JOptionPane.showMessageDialog(this, "Enter ID or Fullname to search before viewing.");
                 return;
             }
             ArrayList<CustomerPage> results = searchResults(keyword);
@@ -252,9 +236,6 @@ public class CustomerForm extends JFrame implements Searchable {
         txtPhone.setText("");
         txtLicense.setText("");
         txtAddress.setText("");
-        txtCar.setText("");
-        txtRentalDate.setText("");
-        txtReturnDate.setText("");
         txtSearch.setText("");
     }
 
@@ -264,10 +245,7 @@ public class CustomerForm extends JFrame implements Searchable {
             "\nName: " + c.getName() +
             "\nPhone: " + c.getPhone() +
             "\nLicense: " + c.getLicense() +
-            "\nAddress: " + c.getAddress() +
-             "\nRented Car: " + c.getCar() +
-             "\nRental Date: " + c.getRentalDate() +
-             "\nReturn Date: " + c.getReturnDate(),
+            "\nAddress: " + c.getAddress(),
             "Customer Details", JOptionPane.INFORMATION_MESSAGE);
     }
 

@@ -11,8 +11,8 @@ public class HomePage extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
 
-        JButton btnCustomer = new JButton("Welcome, Click Me!");
-        btnCustomer.setBounds(200, 100, 200, 50);
+        JButton btnCustomer = new JButton("WELCOME ADMIN, CLICK ME!");
+        btnCustomer.setBounds(180, 220, 230, 50);
         add(btnCustomer);
 
         btnCustomer.addActionListener(e -> {
