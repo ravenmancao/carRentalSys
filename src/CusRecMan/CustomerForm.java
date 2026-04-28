@@ -11,76 +11,76 @@ public class CustomerForm extends JFrame implements Searchable {
 
     public CustomerForm() {
         setTitle("Customer Management");
-        setSize(600, 400);
+        setSize(600, 600);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel lblId = new JLabel("Customer ID:");
-        lblId.setBounds(50, 70, 100, 25);
+        lblId.setBounds(70, 90, 100, 25);
         add(lblId);
         txtId = new JTextField();
-        txtId.setBounds(150, 70, 150, 25);
+        txtId.setBounds(170, 90, 150, 25);
         add(txtId);
 
         JLabel lblName = new JLabel("Full Name:");
-        lblName.setBounds(50, 100, 100, 25);
+        lblName.setBounds(70, 120, 100, 25);
         add(lblName);
         txtName = new JTextField();
-        txtName.setBounds(150, 100, 150, 25);
+        txtName.setBounds(170, 120, 150, 25);
         add(txtName);
 
         JLabel lblPhone = new JLabel("Phone Number:");
-        lblPhone.setBounds(50, 130, 100, 25);
+        lblPhone.setBounds(70, 150, 100, 25);
         add(lblPhone);
         txtPhone = new JTextField();
-        txtPhone.setBounds(150, 130, 150, 25);
+        txtPhone.setBounds(170, 150, 150, 25);
         add(txtPhone);
 
         JLabel lblLicense = new JLabel("Drivers License:");
-        lblLicense.setBounds(50, 160, 100, 25);
+        lblLicense.setBounds(70, 180, 100, 25);
         add(lblLicense);
         txtLicense = new JTextField();
-        txtLicense.setBounds(150, 160, 150, 25);
+        txtLicense.setBounds(170, 180, 150, 25);
         add(txtLicense);
 
         JLabel lblAddress = new JLabel("Address:");
-        lblAddress.setBounds(50, 190, 100, 25);
+        lblAddress.setBounds(70, 210, 100, 25);
         add(lblAddress);
         txtAddress = new JTextField();
-        txtAddress.setBounds(150, 190, 150, 25);
+        txtAddress.setBounds(170, 210, 150, 25);
         add(txtAddress);
 
         JButton btnAdd = new JButton("Add");
-        btnAdd.setBounds(320, 70, 100, 25);
+        btnAdd.setBounds(340, 90, 100, 25);
         add(btnAdd);
 
         JButton btnUpdate = new JButton("Update");
-        btnUpdate.setBounds(320, 100, 100, 25);
+        btnUpdate.setBounds(340, 120, 100, 25);
         add(btnUpdate);
 
         JButton btnDelete = new JButton("Delete");
-        btnDelete.setBounds(320, 130, 100, 25);
+        btnDelete.setBounds(340, 150, 100, 25);
         add(btnDelete);
 
         JButton btnClear = new JButton("Clear");
-        btnClear.setBounds(320, 160, 100, 25);
+        btnClear.setBounds(340, 180, 100, 25);
         add(btnClear);
 
         txtSearch = new JTextField();
-        txtSearch.setBounds(50, 20, 200, 25);
+        txtSearch.setBounds(70, 20, 200, 25);
         add(txtSearch);
 
         JButton btnSearch = new JButton("Search");
-        btnSearch.setBounds(270, 20, 100, 25);
+        btnSearch.setBounds(290, 20, 100, 25);
         add(btnSearch);
 
         JButton btnView = new JButton("View");
-        btnView.setBounds(380, 20, 100, 25);
+        btnView.setBounds(400, 20, 100, 25);
         add(btnView);
 
         JButton btnBack = new JButton("Back to Main Menu");
-        btnBack.setBounds(200, 280, 180, 40);
+        btnBack.setBounds(10, 515, 180, 40);
         add(btnBack);
 
         btnAdd.addActionListener(e -> {
