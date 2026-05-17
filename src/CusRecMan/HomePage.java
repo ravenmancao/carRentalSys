@@ -10,6 +10,10 @@ public class HomePage extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
+        
+        JButton btnBack = new JButton ("Back");
+        btnBack.setBounds(10,520,100,25);
+        add(btnBack);
 
         JButton btnCustomer = new JButton("WELCOME ADMIN, CLICK ME!");
         btnCustomer.setBounds(180, 220, 230, 50);
