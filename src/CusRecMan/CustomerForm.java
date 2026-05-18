@@ -4,233 +4,292 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class CustomerForm extends JFrame implements Searchable {
+public class CustomerForm extends JFrame implements ActionListener, Searchable {
+
     private ArrayList<CustomerPage> customerList = new ArrayList<>();
 
     private JTextField txtId, txtName, txtPhone, txtLicense, txtAddress, txtSearch;
+    private JButton btnAdd, btnUpdate, btnDelete, btnClear, btnSearch, btnView;
 
     public CustomerForm() {
+
         setTitle("Customer Management");
         setSize(600, 600);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JLabel lblId = new JLabel("Customer ID:");
-        lblId.setBounds(70, 90, 100, 25);
-        add(lblId);
+        add(new JLabel("ID")).setBounds(70, 90, 100, 25);
         txtId = new JTextField();
         txtId.setBounds(170, 90, 150, 25);
         add(txtId);
 
-        JLabel lblName = new JLabel("Full Name:");
-        lblName.setBounds(70, 120, 100, 25);
-        add(lblName);
+        add(new JLabel("Name")).setBounds(70, 120, 100, 25);
         txtName = new JTextField();
         txtName.setBounds(170, 120, 150, 25);
         add(txtName);
 
-        JLabel lblPhone = new JLabel("Phone Number:");
-        lblPhone.setBounds(70, 150, 100, 25);
-        add(lblPhone);
+        add(new JLabel("Phone")).setBounds(70, 150, 100, 25);
         txtPhone = new JTextField();
         txtPhone.setBounds(170, 150, 150, 25);
         add(txtPhone);
 
-        JLabel lblLicense = new JLabel("Drivers License:");
-        lblLicense.setBounds(70, 180, 100, 25);
-        add(lblLicense);
+        add(new JLabel("License")).setBounds(70, 180, 100, 25);
         txtLicense = new JTextField();
         txtLicense.setBounds(170, 180, 150, 25);
         add(txtLicense);
 
-        JLabel lblAddress = new JLabel("Address:");
-        lblAddress.setBounds(70, 210, 100, 25);
-        add(lblAddress);
+        add(new JLabel("Address")).setBounds(70, 210, 100, 25);
         txtAddress = new JTextField();
         txtAddress.setBounds(170, 210, 150, 25);
         add(txtAddress);
-
-        JButton btnAdd = new JButton("Add");
-        btnAdd.setBounds(340, 90, 100, 25);
-        add(btnAdd);
-
-        JButton btnUpdate = new JButton("Update");
-        btnUpdate.setBounds(340, 120, 100, 25);
-        add(btnUpdate);
-
-        JButton btnDelete = new JButton("Delete");
-        btnDelete.setBounds(340, 150, 100, 25);
-        add(btnDelete);
-
-        JButton btnClear = new JButton("Clear");
-        btnClear.setBounds(340, 180, 100, 25);
-        add(btnClear);
 
         txtSearch = new JTextField();
         txtSearch.setBounds(70, 20, 200, 25);
         add(txtSearch);
 
-        JButton btnSearch = new JButton("Search");
+        btnAdd = new JButton("Add");
+        btnAdd.setBounds(340, 90, 100, 25);
+        add(btnAdd);
+
+        btnUpdate = new JButton("Update");
+        btnUpdate.setBounds(340, 120, 100, 25);
+        add(btnUpdate);
+
+        btnDelete = new JButton("Delete");
+        btnDelete.setBounds(340, 150, 100, 25);
+        add(btnDelete);
+
+        btnClear = new JButton("Clear");
+        btnClear.setBounds(340, 180, 100, 25);
+        add(btnClear);
+
+        btnSearch = new JButton("Search");
         btnSearch.setBounds(290, 20, 100, 25);
         add(btnSearch);
 
-        JButton btnView = new JButton("View");
+        btnView = new JButton("View");
         btnView.setBounds(400, 20, 100, 25);
         add(btnView);
 
-        JButton btnBack = new JButton("Back to Main Menu");
-        btnBack.setBounds(10, 515, 180, 40);
-        add(btnBack);
+        btnAdd.addActionListener(this);
+        btnUpdate.addActionListener(this);
+        btnDelete.addActionListener(this);
+        btnClear.addActionListener(this);
+        btnSearch.addActionListener(this);
+        btnView.addActionListener(this);
+    }
 
-        btnAdd.addActionListener(e -> {
-            if(txtId.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "ID cannot be empty.");
-                return;
-            }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == btnAdd) {
+
+            if (!validateFields()) return;
+
             int id;
             try {
-                id = Integer.parseInt(txtId.getText());
+                id = Integer.parseInt(txtId.getText().trim());
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "ID must be a number.");
+                JOptionPane.showMessageDialog(this, "Invalid ID! Numbers only.");
                 return;
-            } 
-           StringBuilder missing = new StringBuilder();
+            }
 
-            if(txtName.getText().isEmpty()) missing.append("Fullname, ");
-            if(txtPhone.getText().isEmpty()) missing.append("Phone Number, ");
-            if(txtLicense.getText().isEmpty()) missing.append("Driver's License, ");
-            if(txtAddress.getText().isEmpty()) missing.append("Address, ");
-
-            if(missing.length() > 0){
-                JOptionPane.showMessageDialog(this,"Missing fields: " + missing.substring(0, missing.length() - 2));
-                   return;
-}        
-            for(CustomerPage c : customerList){
-                if(c.getId() == id){
-                    JOptionPane.showMessageDialog(this, "Customer with this ID already exists.");
+            for (CustomerPage c : customerList) {
+                if (c.getId() == id) {
+                    JOptionPane.showMessageDialog(this, "ID already exists!");
                     return;
                 }
             }
-            CustomerPage c = new CustomerPage(
-                id,
-                txtName.getText(),
-                txtPhone.getText(),
-                txtLicense.getText(),
-                txtAddress.getText()            
-            );
-            customerList.add(c);
-            JOptionPane.showMessageDialog(this, "Customer added.");
-            clearFields();
-        });
 
-        btnUpdate.addActionListener(e -> {
-            if(txtId.getText().isEmpty()){
-                JOptionPane.showMessageDialog(this, "ID is required to update.");
-                return;
-            }
+            customerList.add(new CustomerPage(
+                    id,
+                    txtName.getText().trim(),
+                    txtPhone.getText().trim(),
+                    txtLicense.getText().trim(),
+                    txtAddress.getText().trim()
+            ));
+
+            JOptionPane.showMessageDialog(this, "Customer Added!");
+            clearFields();
+        }
+
+        else if (e.getSource() == btnUpdate) {
+
             int id;
             try {
-                id = Integer.parseInt(txtId.getText());
-            } catch(NumberFormatException ex){
-                JOptionPane.showMessageDialog(this, "ID must be a number.");
+                id = Integer.parseInt(txtId.getText().trim());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Invalid ID! Numbers only.");
                 return;
             }
-            CustomerPage found = null;
-            for(CustomerPage c : customerList){
-                if(c.getId() == id){
-                    found = c;
-                    break;
+
+            for (CustomerPage c : customerList) {
+                if (c.getId() == id) {
+
+                    c.setName(txtName.getText().trim());
+                    c.setPhone(txtPhone.getText().trim());
+                    c.setLicense(txtLicense.getText().trim());
+                    c.setAddress(txtAddress.getText().trim());
+
+                    JOptionPane.showMessageDialog(this, "Updated!");
+                    clearFields();
+                    return;
                 }
             }
-            if(found == null){
-                JOptionPane.showMessageDialog(this, "Customer not found.");
-                return;
-            }
-            found.setName(txtName.getText());
-            found.setPhone(txtPhone.getText());
-            found.setLicense(txtLicense.getText());
-            found.setAddress(txtAddress.getText());
-            JOptionPane.showMessageDialog(this, "Customer updated.");
-            clearFields();
-        });
 
-        btnDelete.addActionListener(e -> {
-            if(txtId.getText().isEmpty()){
-                JOptionPane.showMessageDialog(this, "ID is required to delete.");
-                return;
-            }
+            JOptionPane.showMessageDialog(this, "Not found");
+        }
+
+        else if (e.getSource() == btnDelete) {
+
             int id;
             try {
-                id = Integer.parseInt(txtId.getText());
-            } catch(NumberFormatException ex){
-                JOptionPane.showMessageDialog(this, "ID must be a number.");
+                id = Integer.parseInt(txtId.getText().trim());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Invalid ID! Numbers only.");
                 return;
             }
-            boolean removed = customerList.removeIf(c -> c.getId() == id);
-            if(removed){
-                JOptionPane.showMessageDialog(this, "Customer deleted.");
-                clearFields();
-            } else {
-                JOptionPane.showMessageDialog(this, "Customer not found.");
+
+            for (int i = 0; i < customerList.size(); i++) {
+                if (customerList.get(i).getId() == id) {
+                    customerList.remove(i);
+                    JOptionPane.showMessageDialog(this, "Deleted!");
+                    clearFields();
+                    return;
+                }
             }
-        });
 
-        btnClear.addActionListener(e -> clearFields());
+            JOptionPane.showMessageDialog(this, "Not found");
+        }
 
-        btnBack.addActionListener(e -> {
-            HomePage hp = new HomePage();
-            hp.setVisible(true);
-            this.dispose();
-        });
+        else if (e.getSource() == btnSearch) {
+            search(txtSearch.getText());
+        }
 
-        btnSearch.addActionListener(e -> {
+        else if (e.getSource() == btnView) {
+
             String keyword = txtSearch.getText().trim();
-            if(keyword.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Enter ID or Fullname to search.");
-                return;
-            }
-            search(keyword);
-        });
 
-        btnView.addActionListener(e -> {
-            String keyword = txtSearch.getText().trim();
-            if(keyword.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Enter ID or Fullname to search before viewing.");
+            if (keyword.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter ID or Name first");
                 return;
             }
+
             ArrayList<CustomerPage> results = searchResults(keyword);
-            if(results.isEmpty()){
-                JOptionPane.showMessageDialog(this, "No customer found.");
-            } else if(results.size() == 1){
-                CustomerPage c = results.get(0);
-                showCustomerDetails(c);
-            } else {
+
+            if (results.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No customer found");
+            }
+            else if (results.size() == 1) {
+                showDetails(results.get(0));
+            }
+            else {
+
                 String[] options = new String[results.size()];
-                for(int i=0; i<results.size(); i++){
+
+                for (int i = 0; i < results.size(); i++) {
                     options[i] = results.get(i).getId() + " - " + results.get(i).getName();
                 }
-                String choice = (String) JOptionPane.showInputDialog(this, 
-                    "Multiple customers found. Select one:", "Select Customer",
-                    JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-                if(choice != null){
-                    int chosenId = Integer.parseInt(choice.split(" - ")[0]);
-                    CustomerPage chosen = null;
-                    for(CustomerPage c : results){
-                        if(c.getId() == chosenId){
-                            chosen = c;
+
+                String choice = (String) JOptionPane.showInputDialog(
+                        this,
+                        "Multiple customers found:",
+                        "Select Customer",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                );
+
+                if (choice != null) {
+                    int id = Integer.parseInt(choice.split(" - ")[0]);
+
+                    for (CustomerPage c : results) {
+                        if (c.getId() == id) {
+                            showDetails(c);
                             break;
                         }
                     }
-                    if(chosen != null){
-                        showCustomerDetails(chosen);
-                    }
                 }
             }
-        });
+        }
+
+        else if (e.getSource() == btnClear) {
+            clearFields();
+        }
     }
 
-    private void clearFields(){
+    @Override
+    public void search(String keyword) {
+
+        String result = "";
+
+        for (CustomerPage c : customerList) {
+            if (String.valueOf(c.getId()).contains(keyword) ||
+                c.getName().toLowerCase().contains(keyword.toLowerCase())) {
+
+                result += c.getId() + " - " + c.getName() + "\n";
+            }
+        }
+
+        JOptionPane.showMessageDialog(this,
+                result.isEmpty() ? "No Result" : result);
+    }
+
+    private ArrayList<CustomerPage> searchResults(String keyword) {
+
+        ArrayList<CustomerPage> results = new ArrayList<>();
+
+        for (CustomerPage c : customerList) {
+            if (String.valueOf(c.getId()).contains(keyword) ||
+                c.getName().toLowerCase().contains(keyword.toLowerCase())) {
+
+                results.add(c);
+            }
+        }
+
+        return results;
+    }
+
+    private boolean validateFields() {
+
+        if (txtId.getText().trim().isEmpty() ||
+            txtName.getText().trim().isEmpty() ||
+            txtPhone.getText().trim().isEmpty() ||
+            txtLicense.getText().trim().isEmpty() ||
+            txtAddress.getText().trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "Please complete all fields!");
+            return false;
+        }
+
+        if (!txtName.getText().trim().matches("[a-zA-Z ]+")) {
+            JOptionPane.showMessageDialog(this, "Name must contain letters only!");
+            return false;
+        }
+
+        if (!txtPhone.getText().trim().matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Phone must be numbers only!");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void showDetails(CustomerPage c) {
+
+        JOptionPane.showMessageDialog(this,
+                "ID: " + c.getId() +
+                "\nName: " + c.getName() +
+                "\nPhone: " + c.getPhone() +
+                "\nLicense: " + c.getLicense() +
+                "\nAddress: " + c.getAddress(),
+                "Customer Details",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void clearFields() {
         txtId.setText("");
         txtName.setText("");
         txtPhone.setText("");
@@ -239,43 +298,7 @@ public class CustomerForm extends JFrame implements Searchable {
         txtSearch.setText("");
     }
 
-    private void showCustomerDetails(CustomerPage c){
-        JOptionPane.showMessageDialog(this,
-            "ID: " + c.getId() +
-            "\nName: " + c.getName() +
-            "\nPhone: " + c.getPhone() +
-            "\nLicense: " + c.getLicense() +
-            "\nAddress: " + c.getAddress(),
-            "Customer Details", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    @Override
-    public void search(String searchTerm){
-    ArrayList<CustomerPage> matchedCustomers = searchResults(searchTerm);
-    
-    if(matchedCustomers.isEmpty()){
-        JOptionPane.showMessageDialog(this, "No customer found.");
-    } else {
-        StringBuilder message = new StringBuilder("Found " + matchedCustomers.size() + " customer(s):\n");
-        
-        for(CustomerPage customer : matchedCustomers){
-            message.append(customer.getId())
-                   .append(" - ")
-                   .append(customer.getName())
-                   .append("\n");
-        }
-        
-        JOptionPane.showMessageDialog(this, message.toString());
-    }
-}
-
-    private ArrayList<CustomerPage> searchResults(String keyword){
-        ArrayList<CustomerPage> results = new ArrayList<>();
-        for(CustomerPage c : customerList){
-            if(String.valueOf(c.getId()).equals(keyword) || c.getName().toLowerCase().contains(keyword.toLowerCase())){
-                results.add(c);
-            }
-        }
-        return results;
+    public static void main(String[] args) {
+        new CustomerForm().setVisible(true);
     }
 }
